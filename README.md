@@ -52,28 +52,22 @@ Numbers greater than 19 and lesser than 100 are divided into two parts: the
 number of hundreds concatenated with the rest of the input. The concatenation is
 performed by the `prefixedWith` function, which will be described shortly.
 
-    makeTens x = (x `mod` 10) `prefixedWith` case x `div` 10 of
+    makeTens x = (x `mod` 10) `prefixedWith` case x' of
       2 -> "dwadzieścia"
       3 -> "trzydzieści"
       4 -> "czterdzieści"
-      5 -> "pięćdziesiąt"
-      6 -> "sześćdziesiąt"
-      7 -> "siedemdziesiąt"
-      8 -> "osiemdziesiąt"
-      9 -> "dziewięćdziesiąt"
+      _ -> makeWords x' ++ "dziesiąt"
+      where x' = x `div` 10
 
 The conversion of remaining numbers lower than 1000 is analogous.
 
-    makeHundreds x = (x `mod` 100) `prefixedWith` case x `div` 100 of
+    makeHundreds x = (x `mod` 100) `prefixedWith` case x' of
       1 -> "sto"
       2 -> "dwieście"
       3 -> "trzysta"
       4 -> "czterysta"
-      5 -> "pięćset"
-      6 -> "sześćset"
-      7 -> "siedemset"
-      8 -> "osiemset"
-      9 -> "dziewięćset"
+      _ -> makeWords x' ++ "set"
+      where x' = x `div` 100
 
 Now it's time for something more interesting. Numbers greater than 1000 may need
 both singular and plural forms. Quite funnily, in Polish there are two forms of
